@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Owner Panel</title>
     <style>
         :root {
@@ -26,13 +26,10 @@
         .total-count { font-size: 14px; color: var(--text-secondary); }
         .search-bar { width: 100%; padding: 12px; background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 16px; margin-bottom: 20px; }
         .list-item { background-color: var(--surface-color); border-radius: 8px; padding: 15px; margin-bottom: 10px; transition: background-color 0.3s; }
-        .list-item.banned { background-color: #444; text-decoration: line-through; }
         .item-info { display: flex; justify-content: space-between; align-items: center; }
-        .item-meta { font-size: 12px; color: var(--text-secondary); margin-top: 5px; }
         .item-actions { display: flex; gap: 15px; }
         .item-actions button { background: none; border: none; cursor: pointer; }
         .item-actions svg { width: 22px; height: 22px; fill: var(--text-secondary); transition: fill 0.2s; }
-        .ban-btn:hover svg { fill: #fbc02d; }
         .edit-btn:hover svg { fill: #42a5f5; }
         .delete-btn:hover svg { fill: var(--primary-red); }
         .form-group { margin-bottom: 20px; }
@@ -129,14 +126,19 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getDatabase, ref, onValue, push, set, remove, update } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
+        // Your web app's Firebase configuration - UPDATED
         const firebaseConfig = {
-          apiKey: "AIzaSyDwHOdY-DUhMTk6s2BwFk86ccuIvjg1E5Q",
-          authDomain: "animephoto-16ebf.firebaseapp.com",
-          projectId: "animephoto-16ebf",
-          // ❗️❗️ कदम 2 से कॉपी की गई अपनी databaseURL यहाँ पेस्ट करें ❗️❗️
-          databaseURL: "https://animephoto-16ebf-default-rtdb.firebaseio.com", 
+          apiKey: "AIzaSyBmv69d73DQN_TV3A0P6_5dxB8LUMDyDkk",
+          authDomain: "manga-fe3fb.firebaseapp.com",
+          projectId: "manga-fe3fb",
+          databaseURL: "https://manga-fe3fb-default-rtdb.firebaseio.com", // मैंने यह जोड़ा है
+          storageBucket: "manga-fe3fb.firebasestorage.app",
+          messagingSenderId: "533786275929",
+          appId: "1:533786275929:web:9b3beb66a444ff2cfa8148",
+          measurementId: "G-J0Y5N9GKL2"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
@@ -169,20 +171,18 @@
         modalBackdrop.addEventListener('click', closeOptionsModal);
 
         // --- FIREBASE CRUD LOGIC ---
-
-        // 1. READ and RENDER Data
         function renderList(container, data, type) {
             container.innerHTML = '';
             if (!data) {
                 container.innerHTML = '<p style="text-align:center; color: var(--text-secondary);">No items found.</p>';
                 return;
             }
-            const items = Object.entries(data).reverse(); // Show newest first
+            const items = Object.entries(data).reverse(); 
             document.getElementById(`${type}-count`).textContent = `Total: ${items.length}`;
             items.forEach(([key, value]) => {
                 const listItem = document.createElement('div');
                 listItem.className = 'list-item';
-                listItem.dataset.id = key; // Firebase unique key
+                listItem.dataset.id = key; 
                 listItem.innerHTML = `
                     <div class="item-info">
                         <span class="item-title">${value.title}</span>
@@ -197,7 +197,6 @@
         onValue(ref(db, 'manga/'), (snapshot) => renderList(mangaListContainer, snapshot.val(), 'manga'));
         onValue(ref(db, 'popular/'), (snapshot) => renderList(popularListContainer, snapshot.val(), 'popular'));
 
-        // 2. CREATE Data
         document.getElementById('add-manga-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const newMangaRef = push(ref(db, 'manga/'));
@@ -226,7 +225,6 @@
             showView('view-popular-cards');
         });
 
-        // 3. UPDATE and DELETE Data
         function handleActions(event) {
             const target = event.target;
             const actionButton = target.closest('.delete-btn, .edit-btn');
@@ -255,4 +253,4 @@
         popularListContainer.addEventListener('click', handleActions);
     </script>
 </body>
-</html>
+  </html>
