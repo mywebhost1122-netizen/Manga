@@ -93,14 +93,19 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
+        // Your web app's Firebase configuration - UPDATED
         const firebaseConfig = {
-          apiKey: "AIzaSyDwHOdY-DUhMTk6s2BwFk86ccuIvjg1E5Q",
-          authDomain: "animephoto-16ebf.firebaseapp.com",
-          projectId: "animephoto-16ebf",
-          // ❗️❗️ कदम 2 से कॉपी की गई अपनी databaseURL यहाँ भी पेस्ट करें ❗️❗️
-          databaseURL: "https://animephoto-16ebf-default-rtdb.firebaseio.com",
+          apiKey: "AIzaSyBmv69d73DQN_TV3A0P6_5dxB8LUMDyDkk",
+          authDomain: "manga-fe3fb.firebaseapp.com",
+          projectId: "manga-fe3fb",
+          databaseURL: "https://manga-fe3fb-default-rtdb.firebaseio.com", // मैंने यह जोड़ा है
+          storageBucket: "manga-fe3fb.firebasestorage.app",
+          messagingSenderId: "533786275929",
+          appId: "1:533786275929:web:9b3beb66a444ff2cfa8148",
+          measurementId: "G-J0Y5N9GKL2"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
@@ -113,7 +118,7 @@
         function renderHomePage() {
             const homeView = document.getElementById('home-view');
             const popularCardsHTML = allPopularData.map(createMangaCard).join('');
-            const listItemsHTML = allMangaData.slice(0, 10).map(createDetailedListItem).join(''); // Show only 10 latest on home
+            const listItemsHTML = allMangaData.slice(0, 10).map(createDetailedListItem).join(''); 
             homeView.innerHTML = `
                 <section class="manga-row">
                     <h2 style="color: var(--primary-purple); margin-bottom: 15px; font-size: 20px;">Popular Manga</h2>
